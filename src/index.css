@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-arabic: "Amiri", serif;
+
+  /* Warm sand / off-white neutrals */
+  --color-cream: #faf6ee;
+  --color-parchment: #f4ecdd;
+  --color-sand: #eadfc8;
+  --color-sand-deep: #d5c29c;
+  --color-clay: #b08d64;
+
+  /* Sage greens */
+  --color-sage-soft: #c3cfb8;
+  --color-sage: #8ba07e;
+  --color-sage-deep: #4c6353;
+  --color-moss: #31443a;
+
+  /* Accents */
+  --color-terracotta: #c16a45;
+  --color-terracotta-deep: #9e4f2d;
+  --color-dusk: #dca48e;
+  --color-dusk-soft: #eed3c3;
+  --color-indigo-deep: #27334f;
+  --color-ink: #2c2620;
+
+  --animate-marquee: marquee 46s linear infinite;
+  --animate-drift: drift 16s ease-in-out infinite alternate;
+  --animate-spin-slow: spin 22s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes drift {
+    from {
+      transform: translate3d(-2.5%, -1.5%, 0) scale(1.05);
+    }
+    to {
+      transform: translate3d(2.5%, 2%, 0) scale(1.12);
+    }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-terracotta);
+  color: var(--color-cream);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-parchment);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-sand-deep);
+  border-radius: 8px;
+  border: 2px solid var(--color-parchment);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-clay);
+}
+
+/* ---------- Decorative utilities ---------- */
+
+/* Eight-pointed star (khatam) zellige lattice */
+@utility pattern-zellige {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%239e4f2d' stroke-width='1'%3E%3Crect x='19' y='19' width='26' height='26'/%3E%3Crect x='19' y='19' width='26' height='26' transform='rotate(45 32 32)'/%3E%3Ccircle cx='32' cy='32' r='2.2'/%3E%3Cpath d='M0 32h10M54 32h10M32 0v10M32 54v10'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 64px 64px;
+}
+
+@utility pattern-zellige-light {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23faf6ee' stroke-width='1'%3E%3Crect x='19' y='19' width='26' height='26'/%3E%3Crect x='19' y='19' width='26' height='26' transform='rotate(45 32 32)'/%3E%3Ccircle cx='32' cy='32' r='2.2'/%3E%3Cpath d='M0 32h10M54 32h10M32 0v10M32 54v10'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 64px 64px;
+}
+
+/* Fine woven linen texture */
+@utility texture-linen {
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(44, 38, 32, 0.022) 0px,
+      rgba(44, 38, 32, 0.022) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(44, 38, 32, 0.022) 0px,
+      rgba(44, 38, 32, 0.022) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+}
+
+/* Moroccan horseshoe arch */
+@utility arch {
+  border-radius: 999px 999px 1.4rem 1.4rem;
+}
+
+@utility arch-full {
+  border-radius: 999px 999px 0 0;
+}
+
+/* Soft dappled light, as if through a mashrabiya screen */
+.dappled {
+  background-image:
+    radial-gradient(ellipse 46% 34% at 18% 12%, rgba(255, 236, 200, 0.55), transparent 70%),
+    radial-gradient(ellipse 34% 26% at 78% 22%, rgba(255, 226, 182, 0.4), transparent 70%),
+    radial-gradient(ellipse 28% 22% at 62% 78%, rgba(255, 240, 210, 0.35), transparent 70%),
+    radial-gradient(ellipse 40% 30% at 28% 84%, rgba(255, 232, 196, 0.3), transparent 70%);
+  filter: blur(6px);
+  mix-blend-mode: soft-light;
+}
+
+/* ---------- Form fields ---------- */
+
+.field {
+  width: 100%;
+  background-color: #fffdf8;
+  border: 1px solid rgba(176, 141, 100, 0.35);
+  border-radius: 0.9rem;
+  padding: 0.8rem 1rem;
+  font-size: 0.925rem;
+  line-height: 1.4;
+  color: var(--color-ink);
+  outline: none;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background-color 0.25s ease;
+  color-scheme: light;
+}
+.field::placeholder {
+  color: rgba(44, 38, 32, 0.38);
+}
+.field:focus {
+  border-color: var(--color-terracotta);
+  box-shadow: 0 0 0 4px rgba(193, 106, 69, 0.14);
+  background-color: #ffffff;
+}
+.field-error {
+  border-color: #c0453a;
+  box-shadow: 0 0 0 4px rgba(192, 69, 58, 0.12);
+}
+
+.field-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-sage-deep);
+  margin-bottom: 0.45rem;
+}
+
+select.field {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239e4f2d' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  padding-right: 2.4rem;
+}
+
+input[type="date"].field::-webkit-calendar-picker-indicator {
+  opacity: 0.55;
+  cursor: pointer;
+}
+
