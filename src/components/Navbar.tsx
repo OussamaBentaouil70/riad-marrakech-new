@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { navLinks, whatsappLink } from "../data/collection";
-import { DoorIcon, WhatsAppIcon } from "./icons";
+import { logos } from "../data/images";
+import { WhatsAppIcon } from "./icons";
 import { cn } from "../utils/cn";
 
 export function Navbar() {
@@ -59,17 +60,14 @@ export function Navbar() {
         >
           {/* Wordmark */}
           <a href="#top" className="group flex shrink-0 items-center gap-3">
-            <span className="grid h-10 w-10 place-items-center rounded-t-full rounded-b-[0.35rem] bg-terracotta text-cream">
-              <DoorIcon className="h-5 w-5" />
-            </span>
-            <span className="leading-none">
-              <span className={cn("block font-display text-[1.5rem] font-medium tracking-wide transition-colors", scrolled ? "text-ink" : "text-cream")}>
-                Riad
-              </span>
-              <span className={cn("mt-1 hidden text-[0.55rem] font-bold tracking-[0.3em] whitespace-nowrap uppercase transition-colors md:block", scrolled ? "text-terracotta-deep" : "text-dusk-soft")}>
-                Marrakech
-              </span>
-            </span>
+            <img
+              src={logos.brand}
+              alt="Riad Marrakech"
+              className={cn(
+                "h-14 w-auto transition-all duration-500",
+                scrolled ? "filter-none" : "brightness-0 invert"
+              )}
+            />
           </a>
 
           {/* Desktop links */}
@@ -149,15 +147,11 @@ export function Navbar() {
           >
             <div className="pattern-zellige-light pointer-events-none absolute inset-0 opacity-[0.07]" />
             <div className="relative flex items-center justify-between px-5 py-5 sm:px-8">
-              <span className="flex items-center gap-3">
-                <span className="grid h-10 w-10 place-items-center rounded-t-full rounded-b-[0.35rem] bg-terracotta text-cream">
-                  <DoorIcon className="h-5 w-5" />
-                </span>
-                <span>
-                  <span className="block font-display text-xl">Riad</span>
-                  <span className="mt-0.5 block text-[0.55rem] font-bold tracking-[0.2em] text-dusk-soft uppercase">Marrakech</span>
-                </span>
-              </span>
+              <img
+                src={logos.brand}
+                alt="Riad Marrakech"
+                className="h-14 w-auto"
+              />
               <button
                 onClick={() => setOpen(false)}
                 aria-label="Close menu"

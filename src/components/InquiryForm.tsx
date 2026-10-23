@@ -8,6 +8,8 @@ import {
   Send,
   UserRound,
   UsersRound,
+  AlertCircle,
+  Loader2,
 } from "lucide-react";
 import {
   eventTypeOptions,
@@ -24,6 +26,7 @@ interface InquiryErrors {
   email?: string;
   eventType?: string;
   guestCount?: string;
+  server?: string;
 }
 
 export function InquiryForm({
@@ -42,6 +45,7 @@ export function InquiryForm({
   onResetInquiry: () => void;
 }) {
   const [errors, setErrors] = useState<InquiryErrors>({});
+  const [submitting, setSubmitting] = useState(false);
   const isHero = variant === "hero";
   const prefix = isHero ? "hero-inquiry" : "contact-inquiry";
   const now = new Date();
@@ -54,7 +58,7 @@ export function InquiryForm({
 
   const update = (patch: Partial<EventInquiry>) => onChange({ ...inquiry, ...patch });
 
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const next: InquiryErrors = {};
     if (inquiry.name.trim().length < 2) next.name = "Please add your name.";
@@ -67,7 +71,33 @@ export function InquiryForm({
     }
     setErrors(next);
     if (Object.keys(next).length > 0) return;
-    onSubmitInquiry();
+
+    setSubmitting(true);
+    setErrors({});
+
+    try {
+      const referenceCode = `RM-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+      const res = await fetch('/api/contact.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...inquiry, reference: referenceCode }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        if (data.redirect) {
+          window.location.href = `${data.redirect}?ref=${encodeURIComponent(data.reference || referenceCode)}`;
+          return;
+        }
+        onSubmitInquiry();
+      } else {
+        setErrors({ server: data.message || 'Something went wrong. Please try again.' });
+      }
+    } catch {
+      setErrors({ server: 'Network error. Please check your connection and try again.' });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const reset = () => {
@@ -296,17 +326,35 @@ export function InquiryForm({
 
             <button
               type="submit"
+              disabled={submitting}
               className={cn(
-                "group flex w-full items-center justify-center gap-2.5 bg-terracotta font-bold tracking-[0.13em] text-cream uppercase transition-all duration-300 hover:bg-terracotta-deep hover:shadow-[0_18px_34px_-12px_rgba(158,79,45,0.8)]",
+                "group flex w-full items-center justify-center gap-2.5 bg-terracotta font-bold tracking-[0.13em] text-cream uppercase transition-all duration-300 hover:bg-terracotta-deep hover:shadow-[0_18px_34px_-12px_rgba(158,79,45,0.8)] disabled:opacity-60 disabled:cursor-not-allowed",
                 isHero ? "mt-5 rounded-xl px-6 py-3.5 text-[0.78rem]" : "mt-7 rounded-2xl px-8 py-4 text-sm",
               )}
             >
-              Send inquiry
-              <Send className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" />
+              {submitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Sending...
+                </>
+              ) : (
+                <>
+                  Send inquiry
+                  <Send className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" />
+                </>
+              )}
             </button>
-            <p className="mt-3 text-center text-[0.68rem] leading-relaxed text-ink/45">
-              No commitment — availability, permissions, and pricing are confirmed individually.
-            </p>
+            {errors.server && (
+              <p className="mt-3 text-center text-[0.68rem] leading-relaxed text-[#b23a30]" role="alert">
+                <AlertCircle className="h-4 w-4 inline-block mr-1 align-middle" />
+                {errors.server}
+              </p>
+            )}
+            {!errors.server && !submitting && (
+              <p className="mt-3 text-center text-[0.68rem] leading-relaxed text-ink/45">
+                No commitment — availability, permissions, and pricing are confirmed individually.
+              </p>
+            )}
           </motion.form>
         )}
       </AnimatePresence>

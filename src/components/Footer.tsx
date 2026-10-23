@@ -1,7 +1,7 @@
 import { ArrowRight, MapPin } from "lucide-react";
 import { navLinks, riads } from "../data/collection";
 import { Star8 } from "./Ornament";
-import { DoorIcon } from "./icons";
+import { logos } from "../data/images";
 
 export function Footer() {
   return (
@@ -12,17 +12,13 @@ export function Footer() {
       <div className="relative mx-auto max-w-7xl px-5 pt-20 pb-9 sm:px-8 sm:pt-24">
         <div className="grid gap-12 border-b border-cream/12 pb-14 md:grid-cols-2 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <a href="#top" className="inline-flex items-center gap-3">
-              <span className="grid h-11 w-11 place-items-center rounded-t-full rounded-b-[0.35rem] bg-terracotta text-cream">
-                <DoorIcon className="h-5 w-5" />
-              </span>
-              <span className="leading-none">
-                <span className="block font-display text-2xl font-medium">Riad Marrakech</span>
-                <span className="mt-1 block text-[0.56rem] font-bold tracking-[0.3em] text-dusk uppercase">
-                  Private riads · Marrakech
-                </span>
-              </span>
-            </a>
+<a href="#top" className="inline-flex items-center gap-3">
+            <img
+              src={logos.brand}
+              alt="Riad Marrakech"
+              className="h-16 w-auto brightness-0 invert"
+            />
+          </a>
             <p className="mt-5 max-w-sm leading-[1.85] text-cream/58">
               A considered collection of private riads, thoughtful event planning,
               and distinctive ways to experience Marrakech.

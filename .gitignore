@@ -1,10 +1,20 @@
+# Dependencies
+vendor/
 node_modules/
-build/
+
+# Environment
+.env
+.env.local
+
+# Build output
 dist/
-coverage/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
 .DS_Store
-*.log
-.env*
-!.env.example
-/docs
-*.md
+Thumbs.db

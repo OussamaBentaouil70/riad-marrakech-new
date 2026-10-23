@@ -54,6 +54,9 @@ import neliaPool from "../../images/RIADS/nelia/AMG09845_edited.avif";
 import neliaBedroom from "../../images/RIADS/nelia/AMG09895.avif";
 import neliaPoolDeck from "../../images/RIADS/nelia/DSC08538.avif";
 
+import logoRiad from "../../images/logo_riad.png";
+import logoTabIcon from "../../images/logo icon tab.png";
+
 export { heroImage, contactImage };
 
 export const riadImages: Record<string, string> = {
@@ -103,4 +106,9 @@ export const riadGalleryImages: Record<string, string[]> = {
   "riad-noa": [noaPoolChairs, noaCourtyard, noaSalon, noaCourtyardDusk],
   "maison-ziri": [ziriCourtyard, ziriSuite, ziriRoofTerrace, ziriPlaque],
   "nelia-marrakech": [neliaRooftopDrinks, neliaPool, neliaBedroom, neliaPoolDeck],
+};
+
+export const logos = {
+  brand: logoRiad,
+  favicon: logoTabIcon,
 };
